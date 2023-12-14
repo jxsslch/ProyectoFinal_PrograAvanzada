@@ -7,14 +7,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Lista de empresas</h1>
+<h1 class="mt-3">Lista de empresas</h1>
 @if (SignInManager.IsSignedIn(User))
 {
-    <p>
+    <p class ="d-flex justify-content-end mb-3">
+
         <a class="btn btn-primary" asp-action="Create">+ Agregar empresa</a>
     </p>
 }
-<table class="table">
+<table class="table table-light">
     <thead>
         <tr>
             <th>

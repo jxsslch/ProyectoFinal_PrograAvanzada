@@ -7,20 +7,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Lista de provincias</h1>
+    <h1 class="mt-3">Lista de provincias</h1>
+
 @if (SignInManager.IsSignedIn(User))
     {
-<p>
-        <a class="btn btn-primary" asp-action="Create">+ Agregar Provincia</a>
+    <p class="d-flex justify-content-end mb-3">
+        
+            <a class="btn btn-primary" asp-action="Create">+ Agregar Provincia</a>
+       
     </p>
     }
-<table class="table">
+<table class="table table-light ">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
