@@ -7,11 +7,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Lista de empresas</h1>
 @if (SignInManager.IsSignedIn(User))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="btn btn-primary" asp-action="Create">+ Agregar empresa</a>
     </p>
 }
 <table class="table">
@@ -43,11 +43,11 @@
             </td>
                 @if (SignInManager.IsSignedIn(User))
                 {
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                    </td>
                 }
         </tr>
 }

@@ -1,11 +1,11 @@
 ﻿@model G2_ProyectoFinal.Models.Cliente
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Agregrar</h1>
 
 <h4>Cliente</h4>
 <hr />
@@ -40,27 +40,29 @@
             </div>
             <div class="form-group">
                 <label asp-for="EmpresaId" class="control-label"></label>
-                <select asp-for="EmpresaId" class ="form-control" asp-items="ViewBag.EmpresaId"></select>
+                <select asp-for="EmpresaId" class="form-control" asp-items="ViewBag.EmpresaId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ProvinciaId" class="control-label"></label>
-                <select asp-for="ProvinciaId" class ="form-control" asp-items="ViewBag.ProvinciaId"></select>
+                <select asp-for="ProvinciaId" class="form-control" asp-items="ViewBag.ProvinciaId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CantonId" class="control-label"></label>
-                <select asp-for="CantonId" class ="form-control" asp-items="ViewBag.CantonId"></select>
+                <select asp-for="CantonId" class="form-control" asp-items="ViewBag.CantonId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input class="btn btn-primary" type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="Index">Volver a la Lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
