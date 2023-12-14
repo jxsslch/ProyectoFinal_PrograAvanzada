@@ -206,6 +206,8 @@ public partial class SistemaEmpresaContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("MonedaID");
             entity.Property(e => e.Monto).HasColumnType("decimal(18, 2)");
+           entity.Property(t => t.Fecha)
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Cliente).WithMany(p => p.Transacciones)
                 .HasForeignKey(d => d.ClienteId)

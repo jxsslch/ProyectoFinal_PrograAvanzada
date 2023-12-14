@@ -50,10 +50,10 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Transacciones/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre");
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre");
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion");
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre");
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id");
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id");
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id");
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id");
             return View();
         }
 
@@ -62,7 +62,7 @@ namespace G2_ProyectoFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClienteId,LenguajeId,MonedaId,MetodoPagoId,Monto")] Transaccione transaccione)
+        public async Task<IActionResult> Create([Bind("Id,ClienteId,LenguajeId,MonedaId,MetodoPagoId,Monto,Fecha")] Transaccione transaccione)
         {
             if (ModelState.IsValid)
             {
@@ -70,10 +70,10 @@ namespace G2_ProyectoFinal.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
             return View(transaccione);
         }
 
@@ -90,10 +90,10 @@ namespace G2_ProyectoFinal.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
             return View(transaccione);
         }
 
@@ -102,7 +102,7 @@ namespace G2_ProyectoFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,ClienteId,LenguajeId,MonedaId,MetodoPagoId,Monto")] Transaccione transaccione)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,ClienteId,LenguajeId,MonedaId,MetodoPagoId,Monto,Fecha")] Transaccione transaccione)
         {
             if (id != transaccione.Id)
             {
@@ -129,10 +129,10 @@ namespace G2_ProyectoFinal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
             return View(transaccione);
         }
 
