@@ -50,10 +50,10 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Transacciones/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id");
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id");
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id");
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id");
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre");
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre");
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion");
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre");
             return View();
         }
 
@@ -70,10 +70,10 @@ namespace G2_ProyectoFinal.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
             return View(transaccione);
         }
 
@@ -90,10 +90,10 @@ namespace G2_ProyectoFinal.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
             return View(transaccione);
         }
 
@@ -129,10 +129,10 @@ namespace G2_ProyectoFinal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", transaccione.ClienteId);
-            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Id", transaccione.LenguajeId);
-            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Id", transaccione.MetodoPagoId);
-            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Id", transaccione.MonedaId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", transaccione.ClienteId);
+            ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre", transaccione.LenguajeId);
+            ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion", transaccione.MetodoPagoId);
+            ViewData["MonedaId"] = new SelectList(_context.Moneda, "Id", "Nombre", transaccione.MonedaId);
             return View(transaccione);
         }
 
