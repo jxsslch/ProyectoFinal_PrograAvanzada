@@ -50,6 +50,15 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Transacciones/Create
         public IActionResult Create()
         {
+            string ultimoId = _context.Transacciones.OrderByDescending(e => e.Id).Select(e => e.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(ultimoId))
+            {
+                ultimoId = "000";
+            }
+            int numero = int.Parse(ultimoId?.Substring(ultimoId.Length - 3) ?? "0") + 1;
+            string prefijo = "FAC";
+            string nuevoId = $"{prefijo}{numero:D3}";
+            ViewData["NuevoID"] = nuevoId;
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre");
             ViewData["LenguajeId"] = new SelectList(_context.Lenguajes, "Id", "Nombre");
             ViewData["MetodoPagoId"] = new SelectList(_context.MetodoPagos, "Id", "Descripcion");

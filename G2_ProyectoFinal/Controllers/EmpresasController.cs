@@ -46,6 +46,15 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Empresas/Create
         public IActionResult Create()
         {
+            string ultimoId = _context.Empresas.OrderByDescending(e => e.Id).Select(e => e.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(ultimoId))
+            {
+                ultimoId = "000";
+            }
+            int numero = int.Parse(ultimoId?.Substring(ultimoId.Length - 3) ?? "0") + 1;
+            string prefijo = "EM";
+            string nuevoId = $"{prefijo}{numero:D3}";
+            ViewData["NuevoID"] = nuevoId;
             return View();
         }
 

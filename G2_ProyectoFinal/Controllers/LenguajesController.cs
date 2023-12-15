@@ -46,6 +46,15 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Lenguajes/Create
         public IActionResult Create()
         {
+            string ultimoId = _context.Lenguajes.OrderByDescending(e => e.Id).Select(e => e.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(ultimoId))
+            {
+                ultimoId = "000";
+            }
+            int numero = int.Parse(ultimoId?.Substring(ultimoId.Length - 3) ?? "0") + 1;
+            string prefijo = "LEN";
+            string nuevoId = $"{prefijo}{numero:D3}";
+            ViewData["NuevoID"] = nuevoId;
             return View();
         }
 

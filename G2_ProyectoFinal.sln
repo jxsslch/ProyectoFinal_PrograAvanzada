@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G2_ProyectoFinal", "G2_ProyectoFinal\G2_ProyectoFinal.csproj", "{C7CB1C45-4799-4E51-B9BE-D88D3B5D5F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G2_ProyectoFinal", "G2_ProyectoFinal\G2_ProyectoFinal.csproj", "{C7CB1C45-4799-4E51-B9BE-D88D3B5D5F27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{984A4D4C-A3D1-4D39-B7B7-FECC7BDE984C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

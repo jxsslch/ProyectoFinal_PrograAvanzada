@@ -48,6 +48,15 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Cantones/Create
         public IActionResult Create()
         {
+            string ultimoId = _context.Cantons.OrderByDescending(e => e.Id).Select(e => e.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(ultimoId))
+            {
+                ultimoId = "000";
+            }
+            int numero = int.Parse(ultimoId?.Substring(ultimoId.Length - 3) ?? "0") + 1;
+            string prefijo = "CA";
+            string nuevoId = $"{prefijo}{numero:D3}";
+            ViewData["NuevoID"] = nuevoId;
             ViewData["ProvinciaId"] = new SelectList(_context.Provincia, "Id", "Nombre");
             return View();
         }

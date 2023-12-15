@@ -25,7 +25,7 @@ namespace G2_ProyectoFinal.Controllers
             var sistemaEmpresaContext = _context.Clientes.Include(c => c.Canton).Include(c => c.Empresa).Include(c => c.Provincia);
             return View(await sistemaEmpresaContext.ToListAsync());
         }
-
+      
         // GET: Clientes/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -50,6 +50,15 @@ namespace G2_ProyectoFinal.Controllers
         // GET: Clientes/Create
         public IActionResult Create()
         {
+            string ultimoId = _context.Clientes.OrderByDescending(e => e.Id).Select(e => e.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(ultimoId))
+            {
+                ultimoId = "000";
+            }
+            int numero = int.Parse(ultimoId?.Substring(ultimoId.Length - 3) ?? "0") + 1;
+            string prefijo = "CL";
+            string nuevoId = $"{prefijo}{numero:D3}";
+            ViewData["NuevoID"] = nuevoId;
             ViewData["CantonId"] = new SelectList(_context.Cantons, "Id", "Nombre");
             ViewData["EmpresaId"] = new SelectList(_context.Empresas, "Id", "Nombre");
             ViewData["ProvinciaId"] = new SelectList(_context.Provincia, "Id", "Nombre");
@@ -190,5 +199,14 @@ namespace G2_ProyectoFinal.Controllers
         {
             return _context.Clientes.Any(e => e.Id == id);
         }
+        [HttpGet]
+        public JsonResult FiltroCantones(string provinciaId)
+        {
+            var cantones = _context.Cantons.Where(c => c.ProvinciaId == provinciaId)
+                                            .Select(c => new { value = c.Id, text = c.Nombre })
+                                            .ToList();
+            return Json(cantones);
+        }
+
     }
 }
