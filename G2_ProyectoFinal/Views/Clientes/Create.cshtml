@@ -20,12 +20,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" id="iptNombre" class="form-control" required />
+                <input asp-for="Cedula" id="iptCedula" class="form-control" required />
                 <span asp-validation-for="Cedula" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" required/>
+                <input asp-for="Nombre" id="iptNombre" class="form-control" type="text" required />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -88,24 +88,7 @@
                 }
             });
         });
-        document.addEventListener('DOMContentLoaded', function () {
-            const inputCedula = document.getElementById('iptCedula');
-            const inputNombre = document.getElementById('iptNombre');
-            inputCedula.addEventListener('blur', function () {
-                const numeroCedula = inputCedula.value.trim();
-                if (numeroCedula) {
-                    fetch(`https://apis.gometa.org/cedulas/${numeroCedula}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const nombre = data.results[0].fullname;
-                            inputNombre.value = nombre;
-                        })
-                        .catch(error => {
-                            console.error('Error al obtener los detalles de la cédula:', error);
-                        });
-                }
-            });
-        });
+        
     </script>
 }
 
