@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -157,14 +158,32 @@ namespace G2_ProyectoFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente != null)
+            try
             {
-                _context.Clientes.Remove(cliente);
-            }
+                var cliente = await _context.Clientes.FindAsync(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                _context.Clientes.Remove(cliente);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar este cliente porque está siendo referenciado por otros registros.");
+                    return View("Delete", await _context.Clientes.Include(c => c.Canton).Include(c => c.Empresa).Include(c => c.Provincia).FirstOrDefaultAsync(m => m.Id == id));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar al cliente.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool ClienteExists(string id)

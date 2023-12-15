@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -133,19 +134,37 @@ namespace G2_ProyectoFinal.Controllers
             return View(monedum);
         }
 
-        // POST: Monedas/Delete/5
+        // POST: Moneda/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var monedum = await _context.Moneda.FindAsync(id);
-            if (monedum != null)
+            try
             {
-                _context.Moneda.Remove(monedum);
-            }
+                var monedum = await _context.Moneda.FindAsync(id);
+                if (monedum == null)
+                {
+                    return NotFound();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                _context.Moneda.Remove(monedum);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar esta moneda porque está siendo referenciada por otros registros.");
+                    return View("Delete", await _context.Moneda.FindAsync(id));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar la moneda.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool MonedumExists(string id)

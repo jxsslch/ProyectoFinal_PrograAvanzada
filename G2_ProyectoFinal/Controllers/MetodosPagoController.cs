@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -133,19 +134,37 @@ namespace G2_ProyectoFinal.Controllers
             return View(metodoPago);
         }
 
-        // POST: MetodosPago/Delete/5
+        // POST: MetodoPagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var metodoPago = await _context.MetodoPagos.FindAsync(id);
-            if (metodoPago != null)
+            try
             {
-                _context.MetodoPagos.Remove(metodoPago);
-            }
+                var metodoPago = await _context.MetodoPagos.FindAsync(id);
+                if (metodoPago == null)
+                {
+                    return NotFound();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                _context.MetodoPagos.Remove(metodoPago);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar este método de pago porque está siendo referenciado por otros registros.");
+                    return View("Delete", await _context.MetodoPagos.FindAsync(id));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar el método de pago.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool MetodoPagoExists(string id)

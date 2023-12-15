@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -138,14 +139,32 @@ namespace G2_ProyectoFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var lenguaje = await _context.Lenguajes.FindAsync(id);
-            if (lenguaje != null)
+            try
             {
-                _context.Lenguajes.Remove(lenguaje);
-            }
+                var lenguaje = await _context.Lenguajes.FindAsync(id);
+                if (lenguaje == null)
+                {
+                    return NotFound();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                _context.Lenguajes.Remove(lenguaje);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar este lenguaje porque está siendo referenciado por otros registros.");
+                    return View("Delete", await _context.Lenguajes.FindAsync(id));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar el lenguaje.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool LenguajeExists(string id)

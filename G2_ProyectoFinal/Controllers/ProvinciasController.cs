@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -133,19 +134,42 @@ namespace G2_ProyectoFinal.Controllers
             return View(provincium);
         }
 
-        // POST: Provincias/Delete/5
+        // POST: Provincia/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var provincium = await _context.Provincia.FindAsync(id);
-            if (provincium != null)
+            try
             {
-                _context.Provincia.Remove(provincium);
-            }
+                var provincium = await _context.Provincia.FindAsync(id);
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                if (provincium == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Provincia.Remove(provincium);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar esta provincia porque está siendo referenciada por otros registros.");
+
+                    var provincia = await _context.Provincia.FindAsync(id);
+
+                    return View("Delete", provincia);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar la provincia.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool ProvinciumExists(string id)

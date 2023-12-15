@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using G2_ProyectoFinal.Models;
+using Microsoft.Data.SqlClient;
 
 namespace G2_ProyectoFinal.Controllers
 {
@@ -145,14 +146,37 @@ namespace G2_ProyectoFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var canton = await _context.Cantons.FindAsync(id);
-            if (canton != null)
+            try
             {
-                _context.Cantons.Remove(canton);
-            }
+                var canton = await _context.Cantons.FindAsync(id);
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                if (canton == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Cantons.Remove(canton);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                {
+                    ModelState.AddModelError(string.Empty, "No puedes eliminar este cantón porque está siendo referenciado por otros registros.");
+
+                    var canton = await _context.Cantons.FindAsync(id);
+
+                    return View("Delete", canton);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar eliminar el cantón.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool CantonExists(string id)
