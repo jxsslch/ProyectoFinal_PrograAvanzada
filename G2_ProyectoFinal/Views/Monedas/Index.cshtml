@@ -35,8 +35,8 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <td>
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                        <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> 
+                        <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
                     </td>
                 }
